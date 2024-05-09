@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Section</title>
+    <!-- 引入 Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    pre {
+        background-color: #f8f9fa;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        padding: 15px;
+    }
+    code {
+        color: #d63384; /* Bootstrap 的主题色 */
+    }
+</style>
+
+
+<body>
+    <div class="container mt-5">
+        <h2>FAQs</h2>
+        <div class="accordion" id="faqAccordion">
+            <!-- Bash命令示例 -->
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Q1：How to create account?
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p>You need to send an email (cc to your supervisor) to ask the IT admin (tim.foo@utsouthwestern.edu)  to create a HPC account for you. </p>
+
+                        <p>Some documents from IT:</p>
+                        <a href="HPC-quick-guidev2.pdf" download="Document1.pdf">HPC-quick-guide</a><br>
+                        <a href="Anaconda Environment User Guidev2.pdf" download="Document2.pdf">Anaconda-guide</a>
+                        
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingThree">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Q2：How to initialize the system environment?
+                    </button>
+                </h2>
+                <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p>
+                            Open /home/Sxxx(ID)/.bashrc
+                            <p>
+                            Demo of .bashrc:<p></p>
+                            <pre><code>
+# ~/.bashrc: executed by bash(1) for non-login shells.
+# see /usr/share/doc/bash/examples/startup-files (in the package bash-doc)
+# for examples
+
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+        *) return;;
+esac
+
+# don't put duplicate lines or lines starting with space in the history.
+# See bash(1) for more options
+HISTCONTROL=ignoreboth
+
+# append to the history file, don't overwrite it
+shopt -s histappend
+
+# for setting history length see HISTSIZE and HISTFILESIZE in bash(1)
+HISTSIZE=1000
+HISTFILESIZE=2000
+
+# check the window size after each command and, if necessary,
+# update the values of LINES and COLUMNS.
+shopt -s checkwinsize
+
+# If set, the pattern "**" used in a pathname expansion context will
+# match all files and zero or more directories and subdirectories.
+#shopt -s globstar
+
+# make less more friendly for non-text input files, see lesspipe(1)
+[ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
+
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
+fi
+
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+    # We have color support; assume it's compliant with Ecma-48
+    # (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+    # a case would tend to support setf rather than setaf.)
+    color_prompt=yes
+    else
+    color_prompt=
+    fi
+fi
+
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
+
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias ls='ls --color=auto'
+    #alias dir='dir --color=auto'
+    #alias vdir='vdir --color=auto'
+
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/apps/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/apps/anaconda3/etc/profile.d/conda.sh" ]; then
+    . "/apps/anaconda3/etc/profile.d/conda.sh"
+    else
+    export PATH="/apps/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+
+
+module load gcc
+module load slurm
+module load cuda11.7/blas/11.7.1
+module load cuda11.7/toolkit/11.7.1
+module load cuda11.7/fft/11.7.1
+module load shared cuda11.7/toolkit
+                                
+
+
+export http_proxy="http://proxy.swmed.edu:3128"
+
+export https_proxy="http://proxy.swmed.edu:3128"
+
+                            </code></pre> <p></p>
+                            
+                            
+                                     
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Q2：How to use conda?
+                    </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p>
+                            
+                            The conda environment generally takes up a lot of space. You need to place the conda environment inside /data/maia/your_folder. The following is how to configure the conda environment.<p></p>
+                            Try to use the provided conda software and avoid installing a new conda or miniconda software yourself. Simply add the following to /home/Sxxx(ID)/.bashrc to use the conda.<p></p>
+                            <pre><code>
+# >>> conda initialize >>>
+# !!! Contents within this block are managed by 'conda init' !!!
+__conda_setup="$('/apps/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+if [ $? -eq 0 ]; then eval "$__conda_setup
+    if [ -f "/apps/anaconda3/etc/profile.d/conda.sh" ]; then
+    . "/apps/anaconda3/etc/profile.d/conda.sh"
+    else
+    export PATH="/apps/anaconda3/bin:$PATH"
+    fi
+unset __conda_conda.sh
+unset __conda_setup
+# <<< conda initialize <<<
+                            </code></pre> <p></p>
+                            
+                            
+                            The next step is to configure the path to the conda environment, you need to open the following file (if you don't have it please create it yourself)
+                            /home/sxxxxx(ID)/.conda/environments.txt <p></p>
+                            
+                            Then enter the path to your environments in the txt.  <p></p>
+                            <pre><code>/data/maia/xxxx/conda_envs/xxx  </code></pre> <p></p>
+                            Like my txt: <p></p>
+                            <pre><code>/data/maia/yli/conda_envs/py38  </code></pre> <p></p>
+                            
+                            If you want to move the current environments directly to /data/maia/your_folder, use the following command:<p></p>
+                            <pre><code>mv  /home/Sxxx(ID)/old_conda_path  /data/maia/xxxx/conda_envs/ </code></pre> <p></p>
+                            Remember to configure the path in txt after you move it.<p></p>
+                            
+                            <pre><code>/home/Sxxx(ID)/.conda/pkgs </code></pre>
+                            It is a cache file of pip, should be good to delete.<p></p>
+                                                          
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+    
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFour">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Q4：How to connect HPC9?
+                    </button>
+                </h2>
+                <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        
+                        
+                            SSH  <p></p>
+                            
+                            host: rohpc9.swmed.org  <p></p>
+                            
+                            port:22   </p>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingFive">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive">
+                        Q5：Computing resources in slurm
+                    </button>
+                </h2>
+                <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+V100 * 24  <p></p>
+<pre><code>
+#SBATCH --partition=dgxq
+#SBATCH --gres=gpu:v100:1
+</code></pre><p></p>
+
+4090 * 14 <p></p> 
+<pre><code>
+#SBATCH --partition=rtx4090q
+#SBATCH --gres=gpu:rtx4090:1
+</code></pre><p></p>
+
+A100 * 6  <p></p>
+<pre><code>
+#SBATCH --partition=dgx2q
+#SBATCH --gres=gpu:a100:1
+</code></pre><p></p>
+                            
+                        
+                    </div>
+                </div>
+            </div>
+            
+
+            
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSix">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix">
+                        Q6：How to submit a job?
+                    </button>
+                </h2>
+                <div id="collapseSix" class="accordion-collapse collapse" aria-labelledby="headingSix" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+
+Use the following command to submit a job:<p></p>
+<pre><code>
+sbatch job.sh
+</code></pre><p></p>
+
+Demo of job.sh:<p></p>
+<pre><code>
+#!/bin/bash
+#
+#SBATCH --job-name=task1
+#SBATCH --output=task1.txt
+#
+#SBATCH --partition=dgxq
+#SBATCH --gres=gpu:v100:1
+#
+#SBATCH --ntasks=1
+
+srun python train.py
+</code></pre><p></p>
+
+                        
+                    </div>
+                </div>
+            </div>
+            
+
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingSeven">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven">
+                        Q7：How to clean up the storage under the \home path?
+                    </button>
+                </h2>
+                <div id="collapseSeven" class="accordion-collapse collapse" aria-labelledby="headingSeven" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        <p>
+                            Use this command below in your /home/Sxxx(ID) path to check which files are taking up a lot of space.<p>
+                            <pre><code>  du -h --max-depth=1 </code></pre> <p></p>
+                            
+                            Some notable points:<p>
+                            Regularly check and clean up the cache folder<p>
+                            It can be cleaned up with the following command:<p>
+                            <pre><code> rm -r /home/sxxxxx/.cache</code></pre> <p></p>
+                            
+                            The conda environment generally takes up a lot of space. You need to place the conda environment inside /data/maia/your_folder. The following is how to configure the conda environment.<p></p>
+                            Try to use the provided conda software and avoid installing a new conda or miniconda software yourself. Simply add the following to /home/Sxxx(ID)/.bashrc to use the conda.<p></p>
+                            <pre><code>
+# >>> conda initialize >>>
+# !!! Contents within this block are managed by 'conda init' !!!
+__conda_setup="$('/apps/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+if [ $? -eq 0 ]; then eval "$__conda_setup
+    if [ -f "/apps/anaconda3/etc/profile.d/conda.sh" ]; then
+    . "/apps/anaconda3/etc/profile.d/conda.sh"
+    else
+    export PATH="/apps/anaconda3/bin:$PATH"
+    fi
+unset __conda_conda.sh
+unset __conda_setup
+# <<< conda initialize <<<
+                            </code></pre> <p></p>
+                            
+                            
+                            The next step is to configure the path to the conda environment, you need to open the following file (if you don't have it please create it yourself)
+                            /home/sxxxxx(ID)/.conda/environments.txt <p></p>
+                            
+                            Then enter the path to your environments in the txt.  <p></p>
+                            <pre><code>/data/maia/xxxx/conda_envs/xxx  </code></pre> <p></p>
+                            Like my txt: <p></p>
+                            <pre><code>/data/maia/yli/conda_envs/py38  </code></pre> <p></p>
+                            
+                            If you want to move the current environments directly to /data/maia/your_folder, use the following command:<p></p>
+                            <pre><code>mv  /home/Sxxx(ID)/old_conda_path  /data/maia/xxxx/conda_envs/ </code></pre> <p></p>
+                            Remember to configure the path in txt after you move it.<p></p>
+                            
+                            <pre><code>/home/Sxxx(ID)/.conda/pkgs </code></pre>
+                            It is a cache file of pip, should be good to delete.<p></p>
+                            
+                            Also if you are using vscode, vscode usually generates a lot of file in the home path as well, please remember to clean it up in time.                                
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </div>
+    </div>
+    
+
+    <!-- 引入 Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
